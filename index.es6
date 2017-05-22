@@ -11,6 +11,9 @@ Reveal.initialize({
   transition: 'fade'
 });
 
+
+document.body.style.cursor = 'none';
+
 let timeout = null;
 document.addEventListener("mousemove", e => {
   document.body.style.cursor = 'default';
@@ -20,6 +23,6 @@ document.addEventListener("mousemove", e => {
   }
 
   timeout = setTimeout(() => {
-    document.body.style.cursor = 'hide';
-  }, 5000);
+    document.body.style.cursor = 'none';
+  }, 2000);
 });

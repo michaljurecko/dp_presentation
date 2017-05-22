@@ -5131,6 +5131,8 @@ Reveal.initialize({
   transition: 'fade'
 });
 
+document.body.style.cursor = 'none';
+
 var timeout = null;
 document.addEventListener("mousemove", function (e) {
   document.body.style.cursor = 'default';
@@ -5140,6 +5142,6 @@ document.addEventListener("mousemove", function (e) {
   }
 
   timeout = setTimeout(function () {
-    document.body.style.cursor = 'hide';
-  }, 5000);
+    document.body.style.cursor = 'none';
+  }, 2000);
 });
