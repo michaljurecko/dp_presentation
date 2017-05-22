@@ -24,5 +24,5 @@ document.addEventListener("mousemove", e => {
 
   timeout = setTimeout(() => {
     document.body.style.cursor = 'none';
-  }, 2000);
+  }, 500);
 });
