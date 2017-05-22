@@ -45,34 +45,27 @@ html(lang="en")
                         li Rozmanitosť
                         li Nejednoznačnosť
                 section
-                    h1 Relačné databázy
+                    h1 SQL / NoSQL
                     ul
-                        li problém s BigData
-                        li štruktúra údajov
-                        li #[strong zlá vertikálna škálovateľnosť]
-                        ul
-                            li obyčajne iba jeden uzol
-                            li obmedzenia hardvéru
-                            li transakcie ACID
                         li konzistencia / dostupnosť
-                section
-                    h1 NoSQL
-                    ul
+                        li transakcie ACID / BASE
+                        li štruktúra údajov, schéma
                         li #[strong BigTable] - Google
                         li #[strong DynamoDB] - Amazon
-                        li pre potreby webových služieb
-                        li nepoužı́vajú relačný model
-                        li #[strong nemajú pevnú schému]
-                section
-                    h1 NoSQL
-                    ul
-                        li konkrétny typ údajov
-                        li #[strong dobrá vertikálna škálovateľnosť]
-                        ul
-                            li na úkor konzistencie
-                            li bez transakcií
+                        li #[strong 150+]
 
-                section(data-background-color="#000000", data-background-image="static/img/console.gif", data-background-size="contain")
+                section(data-background-color="#ffffff", data-background-image="static/img/mongodb.png", data-background-size="contain")
+                section(data-background-color="#ffffff", data-background-image="static/img/mongodb.png", data-background-size="contain")
+                    h4.text https://db-engines.com/en/ranking
+                    ol.text
+                        li Oracle
+                        li MySQL
+                        li Microsoft SQL Server
+                        li PostgreSQL
+                        li #[strong MongoDB]
+                        li DB2
+                section(data-background-color="#ffffff", data-background-image="static/img/document_db.svg", data-background-size="contain")
+                section(data-background-color="#000000", data-background-video="static/video/console.webm", data-background-size="contain")
                 section(data-background-color="#000000", data-background-video="static/video/webui.mp4", data-background-size="contain")
                 section(data-background-color="#000000", data-background-video="static/video/github.mp4", data-background-size="contain")
 

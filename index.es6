@@ -8,6 +8,7 @@ Reveal.initialize({
   progress: true,
   history: true,
   center: true,
+  margin: 0,
   // default/cube/page/concave/zoom/linear/fade/none
   transition: 'fade',
   // elapsed bar
