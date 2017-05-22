@@ -10,3 +10,16 @@ Reveal.initialize({
   // default/cube/page/concave/zoom/linear/fade/none
   transition: 'fade'
 });
+
+let timeout = null;
+document.addEventListener("mousemove", e => {
+  document.body.style.cursor = 'default';
+
+  if (timeout) {
+    clearTimeout(timeout)
+  }
+
+  timeout = setTimeout(() => {
+    document.body.style.cursor = 'hide';
+  }, 5000);
+});

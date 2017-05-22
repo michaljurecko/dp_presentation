@@ -5130,3 +5130,16 @@ Reveal.initialize({
   // default/cube/page/concave/zoom/linear/fade/none
   transition: 'fade'
 });
+
+var timeout = null;
+document.addEventListener("mousemove", function (e) {
+  document.body.style.cursor = 'default';
+
+  if (timeout) {
+    clearTimeout(timeout);
+  }
+
+  timeout = setTimeout(function () {
+    document.body.style.cursor = 'hide';
+  }, 5000);
+});
