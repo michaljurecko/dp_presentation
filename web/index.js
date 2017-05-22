@@ -5121,6 +5121,203 @@
 
 }));
 
+var slicedToArray = function () {
+  function sliceIterator(arr, i) {
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _e = undefined;
+
+    try {
+      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+        _arr.push(_s.value);
+
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;
+      _e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"]) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+
+    return _arr;
+  }
+
+  return function (arr, i) {
+    if (Array.isArray(arr)) {
+      return arr;
+    } else if (Symbol.iterator in Object(arr)) {
+      return sliceIterator(arr, i);
+    } else {
+      throw new TypeError("Invalid attempt to destructure non-iterable instance");
+    }
+  };
+}();
+
+var ElapsedTimeBar = {
+  // default value
+  barColor: 'rgb(200,0,0)',
+  pausedBarColor: 'rgba(200,0,0,.6)',
+
+  isPaused: false,
+  isFinished: false,
+
+  allottedTime: null,
+  timeProgressBar: null,
+  startTime: null,
+  pauseTime: null,
+  pauseTimeDuration: 0,
+
+  /**
+   * initialize elements
+   */
+  handleReady: function handleReady() {
+    var _this = this;
+
+    var config = Reveal.getConfig();
+
+    // activate this plugin if config.allottedTime exists.
+    if (!config.allottedTime) {
+      console.warn('Failed to start ElapsedTimeBar plugin. "allottedTime" property is required.');
+      return;
+    }
+
+    // set configurations
+    this.barColor = config.barColor || this.barColor;
+    this.pausedBarColor = config.pausedBarColor || this.pausedBarColor;
+
+    // calc barHeight from config.barHeight or page-progress container
+    var barHeight;
+    var pageProgressContainer = document.querySelector('.progress');
+    if (config.progressBarHeight) {
+      barHeight = parseInt(config.progressBarHeight, 10) + 'px';
+
+      // override height of page-progress container
+      pageProgressContainer && (pageProgressContainer.style.height = barHeight);
+    } else if (config.progress && pageProgressContainer) {
+      // get height from page-progress container
+      barHeight = pageProgressContainer.getBoundingClientRect().height + 'px';
+    } else {
+      // default
+      barHeight = '3px';
+    }
+
+    // create container of time-progress
+    var timeProgressContainer = document.createElement('div');
+    timeProgressContainer.classList.add('progress');
+    Object.entries({
+      display: 'block',
+      position: 'fixed',
+      bottom: config.progress ? barHeight : 0,
+      width: '100%',
+      height: barHeight
+    }).forEach(function (_ref) {
+      var _ref2 = slicedToArray(_ref, 2),
+          k = _ref2[0],
+          v = _ref2[1];
+
+      timeProgressContainer.style[k] = v;
+    });
+    document.querySelector('.reveal').appendChild(timeProgressContainer);
+
+    // create content of time-progress
+    this.timeProgressBar = document.createElement('div');
+    Object.entries({
+      height: '100%',
+      willChange: 'width'
+    }).forEach(function (_ref3) {
+      var _ref4 = slicedToArray(_ref3, 2),
+          k = _ref4[0],
+          v = _ref4[1];
+
+      _this.timeProgressBar.style[k] = v;
+    });
+    timeProgressContainer.appendChild(this.timeProgressBar);
+
+    // start timer
+    this.start(config.allottedTime);
+  },
+
+
+  /**
+   * update repeatedly using requestAnimationFrame.
+   */
+  loop: function loop() {
+    if (this.isPaused) return;
+    var now = +new Date();
+    var elapsedTime = now - this.startTime - this.pauseTimeDuration;
+    if (elapsedTime > this.allottedTime) {
+      this.timeProgressBar.style.width = '100%';
+      this.isFinished = true;
+    } else {
+      this.timeProgressBar.style.width = elapsedTime / this.allottedTime * 100 + '%';
+      requestAnimationFrame(this.loop.bind(this));
+    }
+  },
+
+
+  /**
+   * set color of progress bar
+   */
+  setBarColor: function setBarColor() {
+    if (this.isPaused) {
+      this.timeProgressBar.style.backgroundColor = this.pausedBarColor;
+    } else {
+      this.timeProgressBar.style.backgroundColor = this.barColor;
+    }
+  },
+
+
+  /**
+   * start(reset) timer with new allotted time.
+   * @param {number} allottedTime
+   * @param {number} [elapsedTime=0]
+   */
+  start: function start(allottedTime) {
+    var elapsedTime = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+    this.isFinished = false;
+    this.isPaused = false;
+    this.allottedTime = allottedTime;
+    this.startTime = +new Date() - elapsedTime;
+    this.pauseTimeDuration = 0;
+    this.setBarColor();
+    this.loop();
+  },
+  reset: function reset() {
+    this.start(this.allottedTime);
+  },
+  pause: function pause() {
+    if (this.isPaused) return;
+    this.isPaused = true;
+    this.pauseTime = +new Date();
+    this.setBarColor();
+  },
+  resume: function resume() {
+    if (!this.isPaused) return;
+
+    // add paused time duration
+    this.isPaused = false;
+    this.pauseTimeDuration += new Date() - this.pauseTime;
+    this.pauseTime = null;
+    this.setBarColor();
+    this.loop();
+  }
+};
+
+if (Reveal.isReady()) {
+  ElapsedTimeBar.handleReady();
+} else {
+  Reveal.addEventListener('ready', function () {
+    return ElapsedTimeBar.handleReady();
+  });
+}
+
 /* global Reveal */
 Reveal.initialize({
   controls: false,
@@ -5128,7 +5325,13 @@ Reveal.initialize({
   history: true,
   center: true,
   // default/cube/page/concave/zoom/linear/fade/none
-  transition: 'fade'
+  transition: 'fade',
+  // elapsed bar
+  allottedTime: 60 * 1000 * 14, // 14 minutes
+  // - (optional) height of page/time progress bar
+  progressBarHeight: 4,
+  // - (optional) bar color
+  barColor: 'rgb(0, 172, 200)'
 });
 
 document.body.style.cursor = 'none';

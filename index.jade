@@ -21,13 +21,23 @@ html(lang="en")
             .slides
                 // Uvod
                 section
-                    h4 Technická univerzita v Košiciach
-                    h4 Fakulta elektrotechniky a informatiky
+                    h5 Technická univerzita v Košiciach
+                    h5 Fakulta elektrotechniky a informatiky
                     h1.title Webová administrácia databázy Mongo
+                    h4.url https://github.com/mongoeye
                     h2 Michal Jurečko
                     h3 Školiteľ: Ing. Branislav Madoš, PhD.
                 section
-                    h1 Big data
+                    h1 Databáza
+                    ul
+                        li dáta + rozhranie
+                        li oddeľuje od internej reprezentácie
+                        li dopytovancí jazyk - štandardné operácie
+                        li #[strong relačné databázy] - 1970 E. F. Codd
+                        li #[strong NoSQL databázy] - 2000
+                        li SQL / NoSQL
+                section
+                    h1 BigData
                     p rok 2000
                     ul
                         li Objem
@@ -37,35 +47,31 @@ html(lang="en")
                 section
                     h1 Relačné databázy
                     ul
-                        li SQL
-                        li zlá vertikálna škálovateľnosť
+                        li problém s BigData
+                        li štruktúra údajov
+                        li #[strong zlá vertikálna škálovateľnosť]
                         ul
                             li obyčajne iba jeden uzol
                             li obmedzenia hardvéru
                             li transakcie ACID
-                        li problém s BigData
-                        li štruktúra údajov
+                        li konzistencia / dostupnosť
                 section
                     h1 NoSQL
-                    p Not only SQL
                     ul
-                        li BigTable - Google
-                        li DynamoDB - Amazon
-                        li nepoužı́vajú relačný model
-                        li
-                            strong nemajú pevnú schému
-                        li open-source
+                        li #[strong BigTable] - Google
+                        li #[strong DynamoDB] - Amazon
                         li pre potreby webových služieb
+                        li nepoužı́vajú relačný model
+                        li #[strong nemajú pevnú schému]
                 section
                     h1 NoSQL
                     ul
-                        li dobrá vertikálna škálovateľnosť
+                        li konkrétny typ údajov
+                        li #[strong dobrá vertikálna škálovateľnosť]
                         ul
-                            li obyčajne iba jeden uzol
-                            li obmedzenia hardvéru
-                            li transakcie ACID
-                        li problém s BigData
-                        li štruktúra údajov
+                            li na úkor konzistencie
+                            li bez transakcií
+
                 section(data-background-color="#000000", data-background-image="static/img/console.gif", data-background-size="contain")
                 section(data-background-color="#000000", data-background-video="static/video/webui.mp4", data-background-size="contain")
                 section(data-background-color="#000000", data-background-video="static/video/github.mp4", data-background-size="contain")
