@@ -1,0 +1,5 @@
+/node_modules/*
+/web/*
+!/web/static
+!.gitignore
+!.gitkeep
