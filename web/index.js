@@ -5143,5 +5143,5 @@ document.addEventListener("mousemove", function (e) {
 
   timeout = setTimeout(function () {
     document.body.style.cursor = 'none';
-  }, 2000);
+  }, 500);
 });
